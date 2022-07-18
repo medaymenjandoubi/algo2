@@ -1,0 +1,40 @@
+ALGORITHM sum_htab
+VAR
+    i,j: INTEGER :=0;
+    set1 : ARRAY_OF INTEGER[n1];
+    set2 : ARRAY_OF INTEGER[n2]
+    set : ARRAY_OF[n1+n2];
+    sum_commun, sum_distinct : INTEGER:=0
+    htab : HASH_TABLE<INTEGER,INTEGER>
+BEGIN
+    Write("type the length of set1")
+    Read(n1)
+    Write("type the length of set2")
+    Read(n2)
+    FOR i FROM 0 TO n1-1 STEP DO
+        Read(set1[i])
+    END_FOR
+    FOR j FROM 0 TO n2-1 STEP DO
+        Read(set2[j])
+    END_FOR
+    set := concat(set1,set2);
+    
+    FOR i FROM 0 TO set.length-1 STEP step  DO
+        if(htab.lookup(set[i])= false) THEN
+         htab.insert(set[i],1)
+        ELSE
+        htab.insert(set[i], htab.get(set[i]+1))
+        END_IF
+    END_FOR
+
+    FOR item in htab  DO
+        IF (htab.get(item)>1) THEN
+            sum_commun = sum_commun +(item* htab.get(item));
+        END_IF
+        IF (htab.get(item)=1) THEN
+            sum_distinct = sum_distinct +item;
+        END_IF
+    END_FOR
+    Write("the Sum of distinct el is :", sum_distinct)
+    Write("the Sum of overlapping el is :", sum_commun)   
+END
